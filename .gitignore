@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+backend/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Production Builds
+frontend/dist/
+
+# Environment Variables
+.env
+.env.local
+
+# Report JSON files (keep directory, ignore outputs if needed)
+backend/data/reports/*.json
+!backend/data/reports/.gitkeep
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.vscode/
+.idea/

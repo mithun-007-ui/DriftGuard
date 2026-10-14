@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: driftguard-backend
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=driftguard-production-secure-key
+      - TARGET_HTTP_HOST=frontend
+      - TARGET_HEALTH_URL=http://frontend:80/api/health
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - driftguard-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: driftguard-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - driftguard-net
+
+  # Controlled test container for live drift demonstrations
+  driftguard-test-container:
+    image: alpine:latest
+    container_name: driftguard-test-container
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+    networks:
+      - driftguard-net
+
+networks:
+  driftguard-net:
+    driver: bridge

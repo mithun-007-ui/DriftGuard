@@ -1,0 +1,16 @@
+{
+  "environment": "devops-test",
+  "version": "1.0.0",
+  "description": "Baseline configuration for DevOps hackathon test host",
+  "settings": {
+    "http_port": 80,
+    "docker_service_active": true,
+    "test_container_running": true,
+    "test_container_name": "driftguard-test-container",
+    "required_packages": {
+      "docker": true
+    },
+    "health_check_endpoint": "/api/health"
+  },
+  "updated_at": "2026-10-14T07:21:15.693268+00:00"
+}
